@@ -3,13 +3,9 @@
                 xmlns:vm="clr-namespace:LicenseGenerator.ViewModels"
                 x:Class="LicenseGenerator.Views.ProductSelectionWindow"
                 x:DataType="vm:ProductSelectionViewModel"
-                Width="520"
-                Height="300"
-                MinWidth="500"
-                MinHeight="280"
-                CanResize="False"
-                ShowInTaskbar="False"
-                WindowStartupLocation="CenterOwner"
+                Width="520" Height="300" MinWidth="500" MinHeight="280" CanResize="False"
+                ShowInTaskbar="True" WindowStartupLocation="CenterOwner"
+                Icon="avares://LicenseGenerator/Assets/icon.png"
                 Title="Produkt auswählen">
     <Grid RowDefinitions="*,Auto" Margin="16">
         <StackPanel Spacing="10">

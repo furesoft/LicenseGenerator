@@ -4,7 +4,7 @@
                 xmlns:views="clr-namespace:LicenseGenerator.Views"
                 x:Class="LicenseGenerator.MainWindow"
                 x:DataType="vm:MainViewModel"
-                Title="License Generator"
+                Title="License Generator" Icon="avares://LicenseGenerator/Assets/icon.png"
                 Width="860" Height="620"
                 MinWidth="680" MinHeight="500"
                 WindowStartupLocation="CenterScreen">
