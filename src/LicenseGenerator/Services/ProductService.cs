@@ -7,16 +7,10 @@ using System.Threading.Tasks;
 
 namespace LicenseGenerator.Services;
 
-public class ProductService : IProductService
+public class ProductService(LicensingService licensingService) : IProductService
 {
-    private readonly LicensingService _licensingService;
-    private readonly string _productsRootPath;
-
-    public ProductService(LicensingService licensingService)
-    {
-        _licensingService = licensingService;
-        _productsRootPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "LicenseGenerator", "products");
-    }
+    private readonly string _productsRootPath =
+        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "LicenseGenerator", "products");
 
     public Task<IReadOnlyList<string>> GetProductsAsync()
     {
@@ -55,7 +49,7 @@ public class ProductService : IProductService
 
         Directory.CreateDirectory(productPath);
 
-        var keyPair = _licensingService.GenerateKeyPair(passphrase);
+        var keyPair = licensingService.GenerateKeyPair(passphrase);
 
         await File.WriteAllTextAsync(publicKeyPath, keyPair.PublicKey, Encoding.UTF8);
         await File.WriteAllTextAsync(privateKeyPath, keyPair.PrivateKey, Encoding.UTF8);

@@ -11,5 +11,5 @@ public class LicenseModel
     public DateTime? ExpirationDate { get; set; }
     public int MaxUsages { get; set; } = 1;
     public Dictionary<string, string> AdditionalAttributes { get; set; } = new();
-    public List<string> ProductFeatures { get; set; } = new();
+    public List<string> ProductFeatures { get; set; } = [];
 }
