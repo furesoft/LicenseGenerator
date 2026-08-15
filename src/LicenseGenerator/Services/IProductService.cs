@@ -9,4 +9,5 @@ public interface IProductService
     Task<bool> ProductExistsAsync(string productName);
     Task CreateProductAsync(string productName, string passphrase);
     Task<(string PublicKey, string PrivateKey)> LoadProductKeysAsync(string productName);
+    Task ExportProductKeysAsync(string productName, string destinationDirectory);
 }

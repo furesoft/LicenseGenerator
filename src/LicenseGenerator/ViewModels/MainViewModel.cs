@@ -73,6 +73,30 @@ public partial class MainViewModel : ObservableObject
     }
 
     [RelayCommand]
+    private async Task ExportKeysAsync()
+    {
+        if (string.IsNullOrWhiteSpace(SelectedProductName))
+        {
+            ProductStatus = "⚠ Bitte zuerst ein Produkt auswählen.";
+            return;
+        }
+
+        var folder = await _storage.PickFolderPathAsync();
+        if (string.IsNullOrWhiteSpace(folder))
+            return;
+
+        try
+        {
+            await _productService.ExportProductKeysAsync(SelectedProductName, folder);
+            ProductStatus = $"✔ Schlüssel erfolgreich exportiert nach: {folder}";
+        }
+        catch (Exception ex)
+        {
+            ProductStatus = $"⚠ Fehler beim Exportieren der Schlüssel: {ex.Message}";
+        }
+    }
+
+    [RelayCommand]
     private void GenerateKeyPair()
     {
         if (string.IsNullOrWhiteSpace(Passphrase))
