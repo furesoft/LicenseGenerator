@@ -19,8 +19,11 @@ jobs:
         with:
           dotnet-version: "10.0.x"
 
-      - name: Install GitVersion
-        run: dotnet tool install --global GitVersion.Tool
+      - name: Install .NET tools
+        run: |
+          dotnet tool install --global GitVersion.Tool
+          dotnet tool install --global vpk
+          echo "$HOME/.dotnet/tools" >> "$GITHUB_PATH"
 
       - name: Calculate Version
         id: version
@@ -35,17 +38,14 @@ jobs:
       - name: Publish Windows (win-x64)
         run: dotnet publish src/LicenseGenerator/LicenseGenerator.csproj --configuration Release --runtime win-x64 --no-self-contained --output ./publish-win
 
-      - name: Install Velopack
-        run: dotnet tool install --global vpk
-
       - name: Download Old Windows Release
         run: |
-          vpk [win] download gitea --repoUrl ${{ github.server_url }}/${{ github.repository }} --token ${{ secrets.GITHUB_TOKEN }} -o ./release
+          vpk download github --channel win --repoUrl ${{ github.server_url }}/${{ github.repository }} --token ${{ secrets.GITHUB_TOKEN }} -o ./release
 
       - name: Velopack Pack Windows
         run: |
-          vpk [win] pack --packVersion ${{ steps.version.outputs.version }} -u Furesoft_LicenseGenerator --packTitle 'License Generator' -p ./publish-win --mainExe ./LicenseGenerator.exe
+          vpk pack --outputDir ./release --channel win --packVersion ${{ steps.version.outputs.version }} -u Furesoft_LicenseGenerator --packTitle 'License Generator' -p ./publish-win --mainExe ./LicenseGenerator.exe
 
       - name: Velopack Upload Windows
         run: |
-          vpk upload gitea --channel win --repoUrl ${{ github.server_url }}/${{ github.repository }} --token ${{ secrets.GITHUB_TOKEN }} --releaseName '${{ steps.version.outputs.version }}' --tag v${{ steps.version.outputs.version }} --merge
+          vpk upload github --outputDir ./release --channel win --repoUrl ${{ github.server_url }}/${{ github.repository }} --token ${{ secrets.GITHUB_TOKEN }} --releaseName '${{ steps.version.outputs.version }}' --tag v${{ steps.version.outputs.version }} --merge

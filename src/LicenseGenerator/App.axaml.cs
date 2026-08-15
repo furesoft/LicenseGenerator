@@ -27,7 +27,7 @@ public partial class App : Application
 
     private static async Task CheckForUpdatesAsync()
     {
-        var source = new GiteaSource("https://git.furesoft.de/furesoft/LicenseGenerator", null, false);
+        var source = new GithubSource("https://github.com/furesoft/LicenseGenerator", null, false);
         var mgr = new UpdateManager(source);
 
         if (!mgr.IsInstalled)
