@@ -40,12 +40,12 @@ jobs:
 
       - name: Download Old Windows Release
         run: |
-          vpk [win] download gitea --repoUrl ${{ github.server_url }}/${{ github.repository }} --token ${{ secrets.GITHUB_TOKEN }} -o ./release
+          vpk download github --channel win --repoUrl ${{ github.server_url }}/${{ github.repository }} --token ${{ secrets.GITHUB_TOKEN }} -o ./release
 
       - name: Velopack Pack Windows
         run: |
-          vpk [win] pack --packVersion ${{ steps.version.outputs.version }} -u Furesoft_LicenseGenerator --packTitle 'License Generator' -p ./publish-win --mainExe ./LicenseGenerator.exe
+          vpk pack --outputDir ./release --channel win --packVersion ${{ steps.version.outputs.version }} -u Furesoft_LicenseGenerator --packTitle 'License Generator' -p ./publish-win --mainExe ./LicenseGenerator.exe
 
       - name: Velopack Upload Windows
         run: |
-          vpk upload gitea --channel win --repoUrl ${{ github.server_url }}/${{ github.repository }} --token ${{ secrets.GITHUB_TOKEN }} --releaseName '${{ steps.version.outputs.version }}' --tag v${{ steps.version.outputs.version }} --merge
+          vpk upload github --outputDir ./release --channel win --repoUrl ${{ github.server_url }}/${{ github.repository }} --token ${{ secrets.GITHUB_TOKEN }} --releaseName '${{ steps.version.outputs.version }}' --tag v${{ steps.version.outputs.version }} --merge
