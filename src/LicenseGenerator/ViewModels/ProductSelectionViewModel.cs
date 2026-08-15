@@ -11,7 +11,7 @@ namespace LicenseGenerator.ViewModels;
 
 public partial class ProductSelectionViewModel : ObservableObject
 {
-    public ObservableCollection<string> Products { get; } = new();
+    public ObservableCollection<string> Products { get; } = [];
 
     [ObservableProperty] private string _selectedProductName = string.Empty;
     [ObservableProperty] private string _newProductName = string.Empty;

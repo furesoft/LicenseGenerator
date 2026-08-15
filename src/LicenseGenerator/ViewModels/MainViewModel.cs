@@ -49,7 +49,7 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty] private string _newFeature = string.Empty;
     [ObservableProperty] private string _generatedLicenseXml = string.Empty;
 
-    public ObservableCollection<string> Features { get; } = new();
+    public ObservableCollection<string> Features { get; } = [];
 
     // ── Validate Tab ─────────────────────────────────────────
     [ObservableProperty] private string _licenseToValidate = string.Empty;
@@ -165,7 +165,7 @@ public partial class MainViewModel : ObservableObject
                 CustomerCompany = CustomerCompany,
                 ExpirationDate = NeverExpires ? null : ExpirationDate?.DateTime,
                 MaxUsages = MaxUsages,
-                ProductFeatures = Features.ToList(),
+                ProductFeatures = [.. Features],
                 AdditionalAttributes = new Dictionary<string, string>
                 {
                     ["ProductName"] = SelectedProductName
