@@ -1,0 +1,68 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:LicenseGenerator.ViewModels"
+             x:Class="LicenseGenerator.Views.GenerateLicenseView"
+             x:DataType="vm:MainViewModel">
+    <ScrollViewer>
+        <StackPanel Spacing="10" Margin="16">
+
+            <TextBlock Text="Kundendaten" FontWeight="SemiBold"/>
+            <Grid ColumnDefinitions="90,*" RowDefinitions="Auto,Auto,Auto">
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Name" VerticalAlignment="Center" Margin="0,0,8,6"/>
+                <TextBox   Grid.Row="0" Grid.Column="1" Text="{Binding CustomerName}" Margin="0,0,0,6"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="E-Mail" VerticalAlignment="Center" Margin="0,0,8,6"/>
+                <TextBox   Grid.Row="1" Grid.Column="1" Text="{Binding CustomerEmail}" Margin="0,0,0,6"/>
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Firma" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                <TextBox   Grid.Row="2" Grid.Column="1" Text="{Binding CustomerCompany}"/>
+            </Grid>
+
+            <Separator />
+
+            <TextBlock Text="Ablauf &amp; Nutzung" FontWeight="SemiBold"/>
+            <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+                <CheckBox Content="Kein Ablaufdatum" IsChecked="{Binding NeverExpires}" />
+                <CalendarDatePicker SelectedDate="{Binding ExpirationDate}"
+                                    IsEnabled="{Binding ExpirationEnabled}"
+                                    PlaceholderText="Ablaufdatum" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                <TextBlock Text="Max. Nutzungen:" VerticalAlignment="Center"/>
+                <NumericUpDown Value="{Binding MaxUsages}" Minimum="1" Width="120"/>
+            </StackPanel>
+
+            <Separator />
+
+            <TextBlock Text="Features" FontWeight="SemiBold"/>
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBox Text="{Binding NewFeature}" Width="260"
+                         PlaceholderText="Feature-Name…" />
+                <Button Content="Hinzufügen" Command="{Binding AddFeatureCommand}" />
+            </StackPanel>
+            <ListBox ItemsSource="{Binding Features}" MaxHeight="130">
+                <ListBox.ItemTemplate>
+                    <DataTemplate x:DataType="x:String">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="{Binding}" VerticalAlignment="Center"/>
+                            <Button Content="✕"
+                                    Command="{Binding $parent[UserControl].((vm:MainViewModel)DataContext).RemoveFeatureCommand}"
+                                    CommandParameter="{Binding}"
+                                    Padding="4,2" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <Separator />
+
+            <Button Content="🔏 Lizenz generieren" Command="{Binding GenerateLicenseCommand}" />
+
+            <TextBlock Text="Generierte Lizenz (XML)" FontWeight="SemiBold"/>
+            <TextBox Text="{Binding GeneratedLicenseXml}"
+                     AcceptsReturn="True" Height="150"
+                     FontFamily="Courier New" FontSize="10"
+                     IsReadOnly="True" />
+            <Button Content="Lizenz speichern…" Command="{Binding SaveLicenseCommand}" />
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
