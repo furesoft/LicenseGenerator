@@ -15,7 +15,7 @@ public class ProductService : IProductService
     public ProductService(LicensingService licensingService)
     {
         _licensingService = licensingService;
-        _productsRootPath = Path.Combine(AppContext.BaseDirectory, "products");
+        _productsRootPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "LicenseGenerator", "products");
     }
 
     public Task<IReadOnlyList<string>> GetProductsAsync()
