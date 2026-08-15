@@ -1,0 +1,35 @@
+# Build output
+bin/
+obj/
+publish-win/
+publish-linux/
+release/
+
+# .NET
+*.user
+*.suo
+.vs/
+.idea/
+*.DotSettings.user
+
+# NuGet
+*.nupkg
+*.snupkg
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Logs
+*.log
+*.trx
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# GitVersion
+GitVersion.yml.bak
