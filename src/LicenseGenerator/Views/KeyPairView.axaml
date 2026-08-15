@@ -12,7 +12,7 @@
                      Text="{Binding Passphrase}" />
 
             <Button Content="Schlüsselpaar generieren"
-                    Click="OnGenerateKeyPair" />
+                    Command="{Binding GenerateKeyPairCommand}" />
 
             <Separator />
 
@@ -22,8 +22,8 @@
                      FontFamily="Courier New" FontSize="11"
                      PlaceholderText="(leer – zuerst generieren oder laden)" />
             <StackPanel Orientation="Horizontal" Spacing="8">
-                <Button Content="Laden…"   Click="OnLoadPublicKey" />
-                <Button Content="Speichern…" Click="OnSavePublicKey" />
+                <Button Content="Laden…"     Command="{Binding LoadPublicKeyCommand}" />
+                <Button Content="Speichern…" Command="{Binding SavePublicKeyCommand}" />
             </StackPanel>
 
             <TextBlock Text="Private Key (verschlüsselt)" FontWeight="SemiBold"/>
@@ -32,8 +32,8 @@
                      FontFamily="Courier New" FontSize="11"
                      PlaceholderText="(leer – zuerst generieren oder laden)" />
             <StackPanel Orientation="Horizontal" Spacing="8">
-                <Button Content="Laden…"   Click="OnLoadPrivateKey" />
-                <Button Content="Speichern…" Click="OnSavePrivateKey" />
+                <Button Content="Laden…"     Command="{Binding LoadPrivateKeyCommand}" />
+                <Button Content="Speichern…" Command="{Binding SavePrivateKeyCommand}" />
             </StackPanel>
 
         </StackPanel>

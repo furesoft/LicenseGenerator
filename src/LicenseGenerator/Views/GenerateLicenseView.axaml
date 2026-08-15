@@ -36,15 +36,16 @@
             <StackPanel Orientation="Horizontal" Spacing="8">
                 <TextBox Text="{Binding NewFeature}" Width="260"
                          PlaceholderText="Feature-Name…" />
-                <Button Content="Hinzufügen" Click="OnAddFeature" />
+                <Button Content="Hinzufügen" Command="{Binding AddFeatureCommand}" />
             </StackPanel>
             <ListBox ItemsSource="{Binding Features}" MaxHeight="130">
                 <ListBox.ItemTemplate>
                     <DataTemplate x:DataType="x:String">
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <TextBlock Text="{Binding}" VerticalAlignment="Center"/>
-                            <Button Content="✕" Tag="{Binding}"
-                                    Click="OnRemoveFeature"
+                            <Button Content="✕"
+                                    Command="{Binding $parent[UserControl].((vm:MainViewModel)DataContext).RemoveFeatureCommand}"
+                                    CommandParameter="{Binding}"
                                     Padding="4,2" />
                         </StackPanel>
                     </DataTemplate>
@@ -53,14 +54,14 @@
 
             <Separator />
 
-            <Button Content="🔏 Lizenz generieren" Click="OnGenerateLicense" />
+            <Button Content="🔏 Lizenz generieren" Command="{Binding GenerateLicenseCommand}" />
 
             <TextBlock Text="Generierte Lizenz (XML)" FontWeight="SemiBold"/>
             <TextBox Text="{Binding GeneratedLicenseXml}"
                      AcceptsReturn="True" Height="150"
                      FontFamily="Courier New" FontSize="10"
                      IsReadOnly="True" />
-            <Button Content="Lizenz speichern…" Click="OnSaveLicense" />
+            <Button Content="Lizenz speichern…" Command="{Binding SaveLicenseCommand}" />
 
         </StackPanel>
     </ScrollViewer>

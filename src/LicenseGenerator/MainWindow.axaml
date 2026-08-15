@@ -9,26 +9,25 @@
                 MinWidth="680" MinHeight="500"
                 WindowStartupLocation="CenterScreen">
 
-    <Window.DataContext>
-        <vm:MainViewModel />
-    </Window.DataContext>
-
     <NavigationView AlwaysOpen="True"
                     OpenPaneLength="200">
         <NavigationViewItem Header="Schlüsselpaar"
-                            Title="Schlüsselpaar">
+                            Title="Schlüsselpaar"
+                            Icon="{x:Static MaterialIcons.Key}">
             <NavigationViewItem.Content>
                 <views:KeyPairView />
             </NavigationViewItem.Content>
         </NavigationViewItem>
         <NavigationViewItem Header="Lizenz erstellen"
-                            Title="Lizenz erstellen">
+                            Title="Lizenz erstellen"
+                            Icon="{x:Static MaterialIcons.Certificate}">
             <NavigationViewItem.Content>
                 <views:GenerateLicenseView />
             </NavigationViewItem.Content>
         </NavigationViewItem>
         <NavigationViewItem Header="Validieren &amp; Anzeigen"
-                            Title="Validieren &amp; Anzeigen">
+                            Title="Validieren &amp; Anzeigen"
+                            Icon="{x:Static MaterialIcons.CheckCircle}">
             <NavigationViewItem.Content>
                 <views:ValidateView />
             </NavigationViewItem.Content>
