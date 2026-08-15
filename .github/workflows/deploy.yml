@@ -25,6 +25,7 @@ jobs:
       - name: Calculate Version
         id: version
         run: |
+          export PATH="$HOME/.dotnet/tools:$PATH"
           version=$(dotnet-gitversion /output json | jq -r '.MajorMinorPatch')
           echo "version=$version" >> "$GITHUB_OUTPUT"
           echo "GITVERSION_MAJORMINORPATCH=$version" >> "$GITHUB_ENV"
