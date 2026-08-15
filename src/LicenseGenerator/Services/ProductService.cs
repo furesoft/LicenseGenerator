@@ -79,6 +79,23 @@ public class ProductService : IProductService
         return (publicKey, privateKey);
     }
 
+    public async Task ExportProductKeysAsync(string productName, string destinationDirectory)
+    {
+        if (string.IsNullOrWhiteSpace(destinationDirectory))
+            throw new ArgumentException("Zielordner darf nicht leer sein.", nameof(destinationDirectory));
+
+        var (publicKey, privateKey) = await LoadProductKeysAsync(productName);
+
+        if (!Directory.Exists(destinationDirectory))
+            Directory.CreateDirectory(destinationDirectory);
+
+        var targetPublicKeyPath = Path.Combine(destinationDirectory, "key.pub");
+        var targetPrivateKeyPath = Path.Combine(destinationDirectory, "key.priv");
+
+        await File.WriteAllTextAsync(targetPublicKeyPath, publicKey, Encoding.UTF8);
+        await File.WriteAllTextAsync(targetPrivateKeyPath, privateKey, Encoding.UTF8);
+    }
+
     private string GetProductPath(string productName) => Path.Combine(_productsRootPath, productName);
 
     private static string NormalizeAndValidateProductName(string productName)

@@ -7,5 +7,6 @@ public interface IStorageService
     Task<string?> OpenTextFileAsync();
     Task SaveTextFileAsync(string suggestedName, string content);
     Task<string?> PickOpenFilePathAsync();
+    Task<string?> PickFolderPathAsync();
     Task<string?> ReadTextFileAsync(string path);
 }

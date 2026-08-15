@@ -17,7 +17,14 @@
             </Grid>
 
             <TextBlock Text="Produkt" FontWeight="SemiBold"/>
-            <TextBox Text="{Binding SelectedProductName}" IsReadOnly="True" />
+            <Grid ColumnDefinitions="*,Auto">
+                <TextBox Grid.Column="0" Text="{Binding SelectedProductName}" IsReadOnly="True" Margin="0,0,8,0"/>
+                <Button Grid.Column="1" Content="Keys exportieren…" Command="{Binding ExportKeysCommand}"/>
+            </Grid>
+            <Border Background="#1A000000" CornerRadius="4" Padding="10"
+                    IsVisible="{Binding ProductStatus, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                <TextBlock Text="{Binding ProductStatus}" TextWrapping="Wrap"/>
+            </Border>
 
             <Separator />
 

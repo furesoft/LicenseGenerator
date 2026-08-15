@@ -53,6 +53,19 @@ public class StorageService : IStorageService
         return files[0].Path.LocalPath;
     }
 
+    public async Task<string?> PickFolderPathAsync()
+    {
+        var folders = await _topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
+        {
+            AllowMultiple = false
+        });
+
+        if (folders.Count == 0)
+            return null;
+
+        return folders[0].Path.LocalPath;
+    }
+
     public async Task<string?> ReadTextFileAsync(string path)
     {
         if (!File.Exists(path))
