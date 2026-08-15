@@ -32,13 +32,6 @@
                 <views:ValidateView />
             </NavigationViewItem.Content>
         </NavigationViewItem>
-        <NavigationViewItem Header="Einstellungen"
-                            Title="Einstellungen"
-                            Icon="{x:Static MaterialIcons.Cog}">
-            <NavigationViewItem.Content>
-                <views:SettingsView />
-            </NavigationViewItem.Content>
-        </NavigationViewItem>
     </NavigationView>
 
 </PleasantWindow>
