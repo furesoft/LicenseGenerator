@@ -1,11 +1,8 @@
-using Avalonia.Controls;
+using PleasantUI.Controls;
 
 namespace LicenseGenerator;
 
-public partial class MainWindow : Window
+public partial class MainWindow : PleasantWindow
 {
-    public MainWindow()
-    {
-        InitializeComponent();
-    }
+    public MainWindow() => InitializeComponent();
 }

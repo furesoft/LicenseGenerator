@@ -1,9 +1,38 @@
-<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="LicenseGenerator.MainWindow"
-        Title="LicenseGenerator">
-    Welcome to Avalonia!
-</Window>
+﻿<PleasantWindow xmlns="https://github.com/avaloniaui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:vm="clr-namespace:LicenseGenerator.ViewModels"
+                xmlns:views="clr-namespace:LicenseGenerator.Views"
+                x:Class="LicenseGenerator.MainWindow"
+                x:DataType="vm:MainViewModel"
+                Title="License Generator"
+                Width="860" Height="620"
+                MinWidth="680" MinHeight="500"
+                WindowStartupLocation="CenterScreen">
+
+    <Window.DataContext>
+        <vm:MainViewModel />
+    </Window.DataContext>
+
+    <NavigationView AlwaysOpen="True"
+                    OpenPaneLength="200">
+        <NavigationViewItem Header="Schlüsselpaar"
+                            Title="Schlüsselpaar">
+            <NavigationViewItem.Content>
+                <views:KeyPairView />
+            </NavigationViewItem.Content>
+        </NavigationViewItem>
+        <NavigationViewItem Header="Lizenz erstellen"
+                            Title="Lizenz erstellen">
+            <NavigationViewItem.Content>
+                <views:GenerateLicenseView />
+            </NavigationViewItem.Content>
+        </NavigationViewItem>
+        <NavigationViewItem Header="Validieren &amp; Anzeigen"
+                            Title="Validieren &amp; Anzeigen">
+            <NavigationViewItem.Content>
+                <views:ValidateView />
+            </NavigationViewItem.Content>
+        </NavigationViewItem>
+    </NavigationView>
+
+</PleasantWindow>

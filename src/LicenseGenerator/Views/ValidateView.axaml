@@ -1,0 +1,48 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:LicenseGenerator.ViewModels"
+             x:Class="LicenseGenerator.Views.ValidateView"
+             x:DataType="vm:MainViewModel">
+    <ScrollViewer>
+        <StackPanel Spacing="10" Margin="16">
+
+            <TextBlock Text="Lizenz-XML" FontWeight="SemiBold"/>
+            <TextBox Text="{Binding LicenseToValidate}"
+                     AcceptsReturn="True" Height="130"
+                     FontFamily="Courier New" FontSize="10"
+                     PlaceholderText="Lizenz-XML hier einfügen oder laden…" />
+            <Button Content="Lizenz-Datei laden…" Click="OnLoadLicenseForValidation" />
+
+            <Separator />
+
+            <TextBlock Text="Public Key" FontWeight="SemiBold"/>
+            <TextBox Text="{Binding ValidationPublicKey}"
+                     AcceptsReturn="True" Height="70"
+                     FontFamily="Courier New" FontSize="11"
+                     PlaceholderText="Public Key für die Signaturprüfung…" />
+            <Button Content="Aktuellen Public Key verwenden"
+                    Click="OnUseGeneratedPublicKey" />
+
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Content="🔍 Lizenz validieren" Click="OnValidateLicense" />
+                <Button Content="📋 Anzeigen (ohne Signaturprüfung)"
+                        Click="OnLoadAndDisplayLicense" />
+            </StackPanel>
+
+            <Border Background="#1A000000" CornerRadius="4" Padding="10"
+                    IsVisible="{Binding ValidationResult, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                <TextBlock Text="{Binding ValidationResult}"
+                           FontWeight="SemiBold" TextWrapping="Wrap"/>
+            </Border>
+
+            <TextBlock Text="Lizenz-Details" FontWeight="SemiBold"
+                       IsVisible="{Binding LicenseDetails, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+            <TextBox Text="{Binding LicenseDetails}"
+                     AcceptsReturn="True" Height="220"
+                     FontFamily="Courier New" FontSize="11"
+                     IsReadOnly="True"
+                     IsVisible="{Binding LicenseDetails, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
