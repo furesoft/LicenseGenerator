@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,8 +17,13 @@ public partial class MainViewModel : ObservableObject
 {
     private readonly LicensingService _service = new();
     private readonly IStorageService _storage;
+    private readonly ISettingsService _settings;
 
-    public MainViewModel(IStorageService storage) => _storage = storage;
+    public MainViewModel(IStorageService storage, ISettingsService settings)
+    {
+        _storage = storage;
+        _settings = settings;
+    }
 
     // ── Key Tab ──────────────────────────────────────────────
     [ObservableProperty] private string _passphrase = string.Empty;
@@ -46,6 +53,11 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty] private string _validationPublicKey = string.Empty;
     [ObservableProperty] private string _validationResult = string.Empty;
     [ObservableProperty] private string _licenseDetails = string.Empty;
+
+    // ── Settings Tab ──────────────────────────────────────────
+    [ObservableProperty] private string _settingsPublicKeyPath = string.Empty;
+    [ObservableProperty] private string _settingsPrivateKeyPath = string.Empty;
+    [ObservableProperty] private string _settingsStatus = string.Empty;
 
     // ── Commands ─────────────────────────────────────────────
 
@@ -81,6 +93,36 @@ public partial class MainViewModel : ObservableObject
         var text = await _storage.OpenTextFileAsync();
         if (text is not null) PrivateKey = text;
     }
+
+    [RelayCommand]
+    private async Task BrowseSettingsPublicKeyPathAsync()
+    {
+        var path = await _storage.PickOpenFilePathAsync();
+        if (!string.IsNullOrWhiteSpace(path))
+            SettingsPublicKeyPath = path;
+    }
+
+    [RelayCommand]
+    private async Task BrowseSettingsPrivateKeyPathAsync()
+    {
+        var path = await _storage.PickOpenFilePathAsync();
+        if (!string.IsNullOrWhiteSpace(path))
+            SettingsPrivateKeyPath = path;
+    }
+
+    [RelayCommand]
+    private async Task SaveKeyPathSettingsAsync()
+    {
+        await _settings.SaveAsync(new AppSettings
+        {
+            PublicKeyPath = SettingsPublicKeyPath,
+            PrivateKeyPath = SettingsPrivateKeyPath
+        });
+        SettingsStatus = "✔ Einstellungen gespeichert.";
+    }
+
+    [RelayCommand]
+    private Task LoadKeysFromSettingsAsync() => LoadConfiguredKeysAsync(isStartup: false);
 
     [RelayCommand]
     private void AddFeature()
@@ -216,5 +258,68 @@ public partial class MainViewModel : ObservableObject
         }
 
         return sb.ToString();
+    }
+
+    public async Task InitializeAsync()
+    {
+        var appSettings = await _settings.LoadAsync();
+        SettingsPublicKeyPath = appSettings.PublicKeyPath;
+        SettingsPrivateKeyPath = appSettings.PrivateKeyPath;
+        await LoadConfiguredKeysAsync(isStartup: true);
+    }
+
+    private async Task LoadConfiguredKeysAsync(bool isStartup)
+    {
+        SettingsStatus = string.Empty;
+        var messages = new List<string>();
+
+        if (!string.IsNullOrWhiteSpace(SettingsPublicKeyPath))
+        {
+            var publicKey = await TryLoadKeyAsync(SettingsPublicKeyPath, "Public Key");
+            if (publicKey is not null)
+            {
+                PublicKey = publicKey;
+                messages.Add("Public Key geladen");
+            }
+        }
+
+        if (!string.IsNullOrWhiteSpace(SettingsPrivateKeyPath))
+        {
+            var privateKey = await TryLoadKeyAsync(SettingsPrivateKeyPath, "Private Key");
+            if (privateKey is not null)
+            {
+                PrivateKey = privateKey;
+                messages.Add("Private Key geladen");
+            }
+        }
+
+        if (messages.Count > 0)
+            SettingsStatus = $"✔ {string.Join(", ", messages)}.";
+        else if (!isStartup)
+            SettingsStatus = "⚠ Keine Keys geladen. Bitte Pfade prüfen.";
+    }
+
+    private async Task<string?> TryLoadKeyAsync(string path, string keyName)
+    {
+        try
+        {
+            var content = await _storage.ReadTextFileAsync(path);
+            if (content is null)
+            {
+                SettingsStatus = $"⚠ {keyName}-Datei nicht gefunden: {path}";
+                return null;
+            }
+            return content;
+        }
+        catch (IOException ex)
+        {
+            SettingsStatus = $"⚠ Fehler beim Lesen von {keyName}: {ex.Message}";
+            return null;
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            SettingsStatus = $"⚠ Zugriff verweigert für {keyName}: {ex.Message}";
+            return null;
+        }
     }
 }

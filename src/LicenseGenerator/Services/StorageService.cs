@@ -39,4 +39,25 @@ public class StorageService : IStorageService
         await using var writer = new StreamWriter(stream, Encoding.UTF8);
         await writer.WriteAsync(content);
     }
+
+    public async Task<string?> PickOpenFilePathAsync()
+    {
+        var files = await _topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        {
+            AllowMultiple = false
+        });
+
+        if (files.Count == 0)
+            return null;
+
+        return files[0].Path.LocalPath;
+    }
+
+    public async Task<string?> ReadTextFileAsync(string path)
+    {
+        if (!File.Exists(path))
+            return null;
+
+        return await File.ReadAllTextAsync(path, Encoding.UTF8);
+    }
 }
