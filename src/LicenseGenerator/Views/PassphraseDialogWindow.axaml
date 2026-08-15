@@ -1,0 +1,35 @@
+<PleasantWindow xmlns="https://github.com/avaloniaui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:vm="clr-namespace:LicenseGenerator.ViewModels"
+                x:Class="LicenseGenerator.Views.PassphraseDialogWindow"
+                x:DataType="vm:PassphraseDialogViewModel"
+                Width="480"
+                Height="220"
+                MinWidth="460"
+                MinHeight="210"
+                CanResize="False"
+                ShowInTaskbar="False"
+                WindowStartupLocation="CenterOwner"
+                Title="Passphrase eingeben">
+    <Grid RowDefinitions="*,Auto" Margin="16">
+        <StackPanel Spacing="10">
+            <TextBlock Text="Produkt" FontWeight="SemiBold"/>
+            <TextBox Text="{Binding ProductName}" IsReadOnly="True"/>
+
+            <TextBlock Text="Passphrase" FontWeight="SemiBold"/>
+            <TextBox PasswordChar="●"
+                     Text="{Binding Passphrase}"
+                     PlaceholderText="Passphrase für den Private Key…" />
+
+            <Border Background="#1A000000" CornerRadius="4" Padding="10"
+                    IsVisible="{Binding StatusMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                <TextBlock Text="{Binding StatusMessage}" TextWrapping="Wrap"/>
+            </Border>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8" Margin="0,12,0,0">
+            <Button Content="Abbrechen" Click="OnCancelClicked"/>
+            <Button Content="OK" Theme="{DynamicResource AccentButtonTheme}" Click="OnOkClicked"/>
+        </StackPanel>
+    </Grid>
+</PleasantWindow>

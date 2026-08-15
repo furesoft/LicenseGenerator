@@ -16,6 +16,9 @@
                 <TextBox   Grid.Row="2" Grid.Column="1" Text="{Binding CustomerCompany}"/>
             </Grid>
 
+            <TextBlock Text="Produkt" FontWeight="SemiBold"/>
+            <TextBox Text="{Binding SelectedProductName}" IsReadOnly="True" />
+
             <Separator />
 
             <TextBlock Text="Ablauf &amp; Nutzung" FontWeight="SemiBold"/>

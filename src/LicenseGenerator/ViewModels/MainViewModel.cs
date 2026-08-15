@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
@@ -15,8 +16,17 @@ public partial class MainViewModel : ObservableObject
 {
     private readonly LicensingService _service = new();
     private readonly IStorageService _storage;
+    private readonly IProductService _productService;
 
-    public MainViewModel(IStorageService storage) => _storage = storage;
+    public MainViewModel(IStorageService storage, IProductService productService)
+    {
+        _storage = storage;
+        _productService = productService;
+    }
+
+    // ── Product Context ───────────────────────────────────────
+    [ObservableProperty] private string _selectedProductName = string.Empty;
+    [ObservableProperty] private string _productStatus = string.Empty;
 
     // ── Key Tab ──────────────────────────────────────────────
     [ObservableProperty] private string _passphrase = string.Empty;
@@ -48,6 +58,19 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty] private string _licenseDetails = string.Empty;
 
     // ── Commands ─────────────────────────────────────────────
+
+    public async Task SelectProductAsync(string productName, string passphrase)
+    {
+        ProductStatus = string.Empty;
+        var (publicKey, privateKey) = await _productService.LoadProductKeysAsync(productName);
+
+        SelectedProductName = productName.Trim();
+        Passphrase = passphrase;
+        PublicKey = publicKey;
+        PrivateKey = privateKey;
+        ValidationPublicKey = publicKey;
+        ProductStatus = $"✔ Produkt geladen: {SelectedProductName}";
+    }
 
     [RelayCommand]
     private void GenerateKeyPair()
@@ -97,6 +120,12 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void GenerateLicense()
     {
+        if (string.IsNullOrWhiteSpace(SelectedProductName))
+        {
+            GeneratedLicenseXml = "⚠ Bitte zuerst ein Produkt auswählen.";
+            return;
+        }
+
         if (string.IsNullOrWhiteSpace(PrivateKey) || string.IsNullOrWhiteSpace(Passphrase))
         {
             GeneratedLicenseXml = "⚠ Private Key und Passphrase werden benötigt.";
@@ -112,7 +141,11 @@ public partial class MainViewModel : ObservableObject
                 CustomerCompany = CustomerCompany,
                 ExpirationDate = NeverExpires ? null : ExpirationDate?.DateTime,
                 MaxUsages = MaxUsages,
-                ProductFeatures = Features.ToList()
+                ProductFeatures = Features.ToList(),
+                AdditionalAttributes = new Dictionary<string, string>
+                {
+                    ["ProductName"] = SelectedProductName
+                }
             };
 
             var keys = new KeyPairModel
@@ -164,7 +197,7 @@ public partial class MainViewModel : ObservableObject
         else
         {
             ValidationResult = "✘ Lizenz ist ungültig:\n" +
-                string.Join("\n", failures.Select(f => $"  • {f.Message}: {f.HowToResolve}"));
+                               string.Join("\n", failures.Select(f => $"  • {f.Message}: {f.HowToResolve}"));
             LicenseDetails = string.Empty;
         }
     }
@@ -181,8 +214,6 @@ public partial class MainViewModel : ObservableObject
             ? FormatLicenseDetails(license)
             : "⚠ Lizenz konnte nicht geladen werden.";
     }
-
-    // ── Helpers ──────────────────────────────────────────────
 
     private static string FormatLicenseDetails(License license)
     {
