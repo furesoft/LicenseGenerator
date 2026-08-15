@@ -11,13 +11,6 @@
 
     <NavigationView AlwaysOpen="True"
                     OpenPaneLength="200">
-        <NavigationViewItem Header="Schlüsselpaar"
-                            Title="Schlüsselpaar"
-                            Icon="{x:Static MaterialIcons.Key}">
-            <NavigationViewItem.Content>
-                <views:KeyPairView />
-            </NavigationViewItem.Content>
-        </NavigationViewItem>
         <NavigationViewItem Header="Lizenz erstellen"
                             Title="Lizenz erstellen"
                             Icon="{x:Static MaterialIcons.Certificate}">
