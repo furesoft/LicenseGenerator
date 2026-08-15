@@ -44,7 +44,7 @@ jobs:
 
       - name: Velopack Pack Windows
         run: |
-          vpk pack --outputDir ./release --channel win --packVersion ${{ steps.version.outputs.version }} -u Furesoft_LicenseGenerator --packTitle 'License Generator' -p ./publish-win --mainExe ./LicenseGenerator.exe
+          vpk [win] pack --outputDir ./release --packVersion ${{ steps.version.outputs.version }} -u Furesoft_LicenseGenerator --packTitle 'License Generator' -p ./publish-win --mainExe ./LicenseGenerator.exe
 
       - name: Velopack Upload Windows
         run: |
