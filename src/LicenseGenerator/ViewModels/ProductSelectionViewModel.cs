@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using LicenseGenerator.Models;
 
 namespace LicenseGenerator.ViewModels;
@@ -14,12 +12,10 @@ public partial class ProductSelectionViewModel : ObservableObject
     public ObservableCollection<string> Products { get; } = [];
 
     [ObservableProperty] private string _selectedProductName = string.Empty;
-    [ObservableProperty] private string _newProductName = string.Empty;
-    [ObservableProperty] private string _newProductPassphrase = string.Empty;
     [ObservableProperty] private string _statusMessage = string.Empty;
     private readonly Dictionary<string, string> _newProductPassphrases = new(StringComparer.OrdinalIgnoreCase);
 
-    public ProductSelectionViewModel(System.Collections.Generic.IEnumerable<string> existingProducts)
+    public ProductSelectionViewModel(IEnumerable<string> existingProducts)
     {
         foreach (var product in existingProducts.OrderBy(p => p, StringComparer.OrdinalIgnoreCase))
             Products.Add(product);
@@ -28,45 +24,15 @@ public partial class ProductSelectionViewModel : ObservableObject
             SelectedProductName = Products[0];
     }
 
-    [RelayCommand]
-    private void AddProduct()
+    public void AddProduct(string name, string passphrase)
     {
-        StatusMessage = string.Empty;
-        var name = NewProductName.Trim();
-
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            StatusMessage = "⚠ Bitte Produktname eingeben.";
-            return;
-        }
-
-        if (name.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
-        {
-            StatusMessage = "⚠ Produktname enthält ungültige Zeichen.";
-            return;
-        }
-
-        if (string.IsNullOrWhiteSpace(NewProductPassphrase))
-        {
-            StatusMessage = "⚠ Bitte Passphrase für neues Produkt eingeben.";
-            return;
-        }
-
         var existing = Products.FirstOrDefault(p => string.Equals(p, name, StringComparison.OrdinalIgnoreCase));
         if (existing is null)
         {
             Products.Add(name);
-            SelectedProductName = name;
-            _newProductPassphrases[name] = NewProductPassphrase;
-            NewProductName = string.Empty;
-            NewProductPassphrase = string.Empty;
-            return;
+            _newProductPassphrases[name] = passphrase;
         }
-
-        SelectedProductName = existing;
-        NewProductName = string.Empty;
-        NewProductPassphrase = string.Empty;
-        StatusMessage = "ℹ Produkt existiert bereits und wurde ausgewählt.";
+        SelectedProductName = existing ?? name;
     }
 
     public bool TryBuildResult(out ProductSelectionResult? result)

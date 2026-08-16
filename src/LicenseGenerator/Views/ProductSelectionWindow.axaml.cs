@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Avalonia.Controls;
 using Avalonia.Interactivity;
 using LicenseGenerator.Models;
 using LicenseGenerator.ViewModels;
@@ -20,6 +19,15 @@ public partial class ProductSelectionWindow : PleasantWindow
     {
         InitializeComponent();
         DataContext = new ProductSelectionViewModel(existingProducts);
+    }
+
+    private async void OnAddProductClicked(object? sender, RoutedEventArgs e)
+    {
+        var dialog = new AddProductWindow();
+        await dialog.ShowDialog(this);
+
+        if (dialog.NewProductName is not null && dialog.NewProductPassphrase is not null)
+            ViewModel.AddProduct(dialog.NewProductName, dialog.NewProductPassphrase);
     }
 
     private void OnCancelClicked(object? sender, RoutedEventArgs e)

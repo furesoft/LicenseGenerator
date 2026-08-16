@@ -1,0 +1,33 @@
+<PleasantWindow xmlns="https://github.com/avaloniaui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:vm="clr-namespace:LicenseGenerator.ViewModels"
+                x:Class="LicenseGenerator.Views.AddProductWindow"
+                x:DataType="vm:AddProductViewModel"
+                Width="420" Height="230" MinWidth="400" MinHeight="220"
+                CanResize="False"
+                ShowInTaskbar="True" Icon="avares://LicenseGenerator/Assets/icon.png"
+                WindowStartupLocation="CenterOwner"
+                Title="Neues Produkt anlegen">
+    <Grid RowDefinitions="*,Auto" Margin="16">
+        <StackPanel Spacing="10">
+            <TextBlock Text="Produktname" FontWeight="SemiBold"/>
+            <TextBox Text="{Binding ProductName}"
+                     PlaceholderText="Produktname…" />
+
+            <TextBlock Text="Passphrase" FontWeight="SemiBold"/>
+            <TextBox PasswordChar="●"
+                     Text="{Binding Passphrase}"
+                     PlaceholderText="Passphrase für das neue Produkt…" />
+
+            <Border Background="#1A000000" CornerRadius="4" Padding="10"
+                    IsVisible="{Binding StatusMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                <TextBlock Text="{Binding StatusMessage}" TextWrapping="Wrap"/>
+            </Border>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8" Margin="0,12,0,0">
+            <Button Content="Abbrechen" Click="OnCancelClicked"/>
+            <Button Content="Anlegen" Theme="{DynamicResource AccentButtonTheme}" Click="OnCreateClicked"/>
+        </StackPanel>
+    </Grid>
+</PleasantWindow>
