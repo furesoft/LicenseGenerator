@@ -69,7 +69,7 @@ public partial class MainViewModel : ObservableObject
         PublicKey = publicKey;
         PrivateKey = privateKey;
         ValidationPublicKey = publicKey;
-        ProductStatus = $"✔ Produkt geladen: {SelectedProductName}";
+        ProductStatus = $"✔ Product loaded: {SelectedProductName}";
     }
 
     [RelayCommand]
@@ -77,7 +77,7 @@ public partial class MainViewModel : ObservableObject
     {
         if (string.IsNullOrWhiteSpace(SelectedProductName))
         {
-            ProductStatus = "⚠ Bitte zuerst ein Produkt auswählen.";
+            ProductStatus = "⚠ Please select a product first.";
             return;
         }
 
@@ -88,11 +88,11 @@ public partial class MainViewModel : ObservableObject
         try
         {
             await _productService.ExportProductKeysAsync(SelectedProductName, folder);
-            ProductStatus = $"✔ Schlüssel erfolgreich exportiert nach: {folder}";
+            ProductStatus = $"✔ Keys exported successfully to: {folder}";
         }
         catch (Exception ex)
         {
-            ProductStatus = $"⚠ Fehler beim Exportieren der Schlüssel: {ex.Message}";
+            ProductStatus = $"⚠ Error exporting keys: {ex.Message}";
         }
     }
 
@@ -101,7 +101,7 @@ public partial class MainViewModel : ObservableObject
     {
         if (string.IsNullOrWhiteSpace(Passphrase))
         {
-            PublicKey = "⚠ Bitte zuerst eine Passphrase eingeben.";
+            PublicKey = "⚠ Please enter a passphrase first.";
             return;
         }
         var keys = _service.GenerateKeyPair(Passphrase);
@@ -146,13 +146,13 @@ public partial class MainViewModel : ObservableObject
     {
         if (string.IsNullOrWhiteSpace(SelectedProductName))
         {
-            GeneratedLicenseXml = "⚠ Bitte zuerst ein Produkt auswählen.";
+            GeneratedLicenseXml = "⚠ Please select a product first.";
             return;
         }
 
         if (string.IsNullOrWhiteSpace(PrivateKey) || string.IsNullOrWhiteSpace(Passphrase))
         {
-            GeneratedLicenseXml = "⚠ Private Key und Passphrase werden benötigt.";
+            GeneratedLicenseXml = "⚠ Private Key and passphrase are required.";
             return;
         }
 
@@ -183,7 +183,7 @@ public partial class MainViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            GeneratedLicenseXml = $"⚠ Fehler: {ex.Message}";
+            GeneratedLicenseXml = $"⚠ Error: {ex.Message}";
         }
     }
 
@@ -205,7 +205,7 @@ public partial class MainViewModel : ObservableObject
     {
         if (string.IsNullOrWhiteSpace(LicenseToValidate) || string.IsNullOrWhiteSpace(ValidationPublicKey))
         {
-            ValidationResult = "⚠ Lizenz-XML und Public Key werden benötigt.";
+            ValidationResult = "⚠ License XML and Public Key are required.";
             LicenseDetails = string.Empty;
             return;
         }
@@ -214,13 +214,13 @@ public partial class MainViewModel : ObservableObject
 
         if (isValid)
         {
-            ValidationResult = "✔ Lizenz ist gültig.";
+            ValidationResult = "✔ License is valid.";
             var license = _service.LoadLicense(LicenseToValidate);
             LicenseDetails = license is not null ? FormatLicenseDetails(license) : string.Empty;
         }
         else
         {
-            ValidationResult = "✘ Lizenz ist ungültig:\n" +
+            ValidationResult = "✘ License is invalid:\n" +
                                string.Join("\n", failures.Select(f => $"  • {f.Message}: {f.HowToResolve}"));
             LicenseDetails = string.Empty;
         }
@@ -236,7 +236,7 @@ public partial class MainViewModel : ObservableObject
         var license = _service.LoadLicense(text);
         LicenseDetails = license is not null
             ? FormatLicenseDetails(license)
-            : "⚠ Lizenz konnte nicht geladen werden.";
+            : "⚠ License could not be loaded.";
     }
 
     private static string FormatLicenseDetails(License license)
@@ -244,13 +244,13 @@ public partial class MainViewModel : ObservableObject
         var sb = new StringBuilder();
         sb.AppendLine($"ID:           {license.Id}");
         sb.AppendLine($"Typ:          {license.Type}");
-        sb.AppendLine($"Max. Nutzung: {license.Quantity}");
-        sb.AppendLine($"Ablauf:       {(license.Expiration == DateTime.MaxValue ? "Nie" : license.Expiration.ToString("d"))}");
+        sb.AppendLine($"Max. usage: {license.Quantity}");
+        sb.AppendLine($"Expiration:   {(license.Expiration == DateTime.MaxValue ? "Never" : license.Expiration.ToString("d"))}");
         sb.AppendLine();
-        sb.AppendLine("── Kunde ──");
+        sb.AppendLine("── Customer ──");
         sb.AppendLine($"Name:         {license.Customer?.Name}");
-        sb.AppendLine($"E-Mail:       {license.Customer?.Email}");
-        sb.AppendLine($"Firma:        {license.Customer?.Company}");
+        sb.AppendLine($"Email:        {license.Customer?.Email}");
+        sb.AppendLine($"Company:      {license.Customer?.Company}");
 
         var features = license.ProductFeatures?.GetAll();
         if (features?.Count > 0)
@@ -265,7 +265,7 @@ public partial class MainViewModel : ObservableObject
         if (attrs?.Count > 0)
         {
             sb.AppendLine();
-            sb.AppendLine("── Zusätzliche Attribute ──");
+            sb.AppendLine("── Additional attributes ──");
             foreach (var kv in attrs)
                 sb.AppendLine($"  {kv.Key}: {kv.Value}");
         }

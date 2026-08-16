@@ -16,19 +16,19 @@ public partial class AddProductViewModel : ObservableObject
 
         if (string.IsNullOrWhiteSpace(name))
         {
-            StatusMessage = "⚠ Bitte Produktname eingeben.";
+            StatusMessage = "⚠ Please enter a product name.";
             return false;
         }
 
         if (name.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
         {
-            StatusMessage = "⚠ Produktname enthält ungültige Zeichen.";
+            StatusMessage = "⚠ Product name contains invalid characters.";
             return false;
         }
 
         if (string.IsNullOrWhiteSpace(Passphrase))
         {
-            StatusMessage = "⚠ Bitte Passphrase für das neue Produkt eingeben.";
+            StatusMessage = "⚠ Please enter a passphrase for the new product.";
             return false;
         }
 

@@ -11,15 +11,15 @@
 
     <NavigationView AlwaysOpen="True"
                     OpenPaneLength="200">
-        <NavigationViewItem Header="Lizenz erstellen"
-                            Title="Lizenz erstellen"
+        <NavigationViewItem Header="Create license"
+                            Title="Create license"
                             Icon="{x:Static MaterialIcons.Certificate}">
             <NavigationViewItem.Content>
                 <views:GenerateLicenseView />
             </NavigationViewItem.Content>
         </NavigationViewItem>
-        <NavigationViewItem Header="Validieren &amp; Anzeigen"
-                            Title="Validieren &amp; Anzeigen"
+        <NavigationViewItem Header="Validate &amp; inspect"
+                            Title="Validate &amp; inspect"
                             Icon="{x:Static MaterialIcons.CheckCircle}">
             <NavigationViewItem.Content>
                 <views:ValidateView />

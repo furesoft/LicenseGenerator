@@ -40,7 +40,7 @@ public partial class ProductSelectionViewModel : ObservableObject
         var selected = SelectedProductName.Trim();
         if (string.IsNullOrWhiteSpace(selected))
         {
-            StatusMessage = "⚠ Bitte ein Produkt auswählen oder mit + anlegen.";
+            StatusMessage = "⚠ Please select a product or create a new one with +.";
             result = null;
             return false;
         }

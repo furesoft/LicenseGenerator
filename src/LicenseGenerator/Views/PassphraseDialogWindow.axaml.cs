@@ -35,7 +35,7 @@ public partial class PassphraseDialogWindow : PleasantWindow
         var passphrase = ViewModel.Passphrase;
         if (string.IsNullOrWhiteSpace(passphrase))
         {
-            ViewModel.StatusMessage = "⚠ Bitte Passphrase eingeben.";
+            ViewModel.StatusMessage = "⚠ Please enter a passphrase.";
             return;
         }
 
