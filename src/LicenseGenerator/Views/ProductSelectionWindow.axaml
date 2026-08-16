@@ -6,16 +6,16 @@
                 Width="420" Height="200" MinWidth="400" MinHeight="190" CanResize="False"
                 ShowInTaskbar="True" WindowStartupLocation="CenterOwner"
                 Icon="avares://LicenseGenerator/Assets/icon.png"
-                Title="Produkt auswählen">
+                Title="Select product">
     <Grid RowDefinitions="*,Auto" Margin="16">
         <StackPanel Spacing="10">
-            <TextBlock Text="Produkt für diese Sitzung auswählen" FontWeight="SemiBold"/>
+            <TextBlock Text="Select a product for this session" FontWeight="SemiBold"/>
             <StackPanel Orientation="Horizontal" Spacing="8">
                 <ComboBox ItemsSource="{Binding Products}"
                           SelectedItem="{Binding SelectedProductName}"
-                          PlaceholderText="Produkt auswählen…"
+                          PlaceholderText="Select product…"
                           HorizontalAlignment="Stretch" />
-                <Button Content="+" Width="40" ToolTip.Tip="Neues Produkt anlegen"
+                <Button Content="+" Width="40" ToolTip.Tip="Create new product"
                         Click="OnAddProductClicked" />
             </StackPanel>
 
@@ -26,7 +26,7 @@
         </StackPanel>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8" Margin="0,12,0,0">
-            <Button Content="Abbrechen" Click="OnCancelClicked"/>
+            <Button Content="Cancel" Click="OnCancelClicked"/>
             <Button Content="OK" Theme="{DynamicResource AccentButtonTheme}" Click="OnOkClicked"/>
         </StackPanel>
     </Grid>

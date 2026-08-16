@@ -6,12 +6,12 @@
     <ScrollViewer>
         <StackPanel Spacing="10" Margin="16">
 
-            <TextBlock Text="Lizenz-XML" FontWeight="SemiBold"/>
+            <TextBlock Text="License XML" FontWeight="SemiBold"/>
             <TextBox Text="{Binding LicenseToValidate}"
                      AcceptsReturn="True" Height="130"
                      FontFamily="Courier New" FontSize="10"
-                     PlaceholderText="Lizenz-XML hier einfügen oder laden…" />
-            <Button Content="Lizenz-Datei laden…" Command="{Binding LoadLicenseForValidationCommand}" />
+                     PlaceholderText="Paste or load license XML here…" />
+            <Button Content="Load license file…" Command="{Binding LoadLicenseForValidationCommand}" />
 
             <Separator />
 
@@ -19,13 +19,13 @@
             <TextBox Text="{Binding ValidationPublicKey}"
                      AcceptsReturn="True" Height="70"
                      FontFamily="Courier New" FontSize="11"
-                     PlaceholderText="Public Key für die Signaturprüfung…" />
-            <Button Content="Aktuellen Public Key verwenden"
+                    PlaceholderText="Public Key for signature verification…" />
+            <Button Content="Use current Public Key"
                     Command="{Binding UseGeneratedPublicKeyForValidationCommand}" />
 
             <StackPanel Orientation="Horizontal" Spacing="8">
-                <Button Content="🔍 Lizenz validieren" Command="{Binding ValidateLicenseCommand}" />
-                <Button Content="📋 Anzeigen (ohne Signaturprüfung)"
+                <Button Content="🔍 Validate license" Command="{Binding ValidateLicenseCommand}" />
+                <Button Content="📋 View (without signature verification)"
                         Command="{Binding LoadLicenseAndDisplayCommand}" />
             </StackPanel>
 
@@ -35,7 +35,7 @@
                            FontWeight="SemiBold" TextWrapping="Wrap"/>
             </Border>
 
-            <TextBlock Text="Lizenz-Details" FontWeight="SemiBold"
+            <TextBlock Text="License details" FontWeight="SemiBold"
                        IsVisible="{Binding LicenseDetails, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
             <TextBox Text="{Binding LicenseDetails}"
                      AcceptsReturn="True" Height="220"

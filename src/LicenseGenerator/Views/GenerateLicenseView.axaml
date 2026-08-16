@@ -6,20 +6,20 @@
     <ScrollViewer>
         <StackPanel Spacing="10" Margin="16">
 
-            <TextBlock Text="Kundendaten" FontWeight="SemiBold"/>
+            <TextBlock Text="Customer details" FontWeight="SemiBold"/>
             <Grid ColumnDefinitions="90,*" RowDefinitions="Auto,Auto,Auto">
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Name" VerticalAlignment="Center" Margin="0,0,8,6"/>
                 <TextBox   Grid.Row="0" Grid.Column="1" Text="{Binding CustomerName}" Margin="0,0,0,6"/>
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="E-Mail" VerticalAlignment="Center" Margin="0,0,8,6"/>
                 <TextBox   Grid.Row="1" Grid.Column="1" Text="{Binding CustomerEmail}" Margin="0,0,0,6"/>
-                <TextBlock Grid.Row="2" Grid.Column="0" Text="Firma" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Company" VerticalAlignment="Center" Margin="0,0,8,0"/>
                 <TextBox   Grid.Row="2" Grid.Column="1" Text="{Binding CustomerCompany}"/>
             </Grid>
 
-            <TextBlock Text="Produkt" FontWeight="SemiBold"/>
+            <TextBlock Text="Product" FontWeight="SemiBold"/>
             <Grid ColumnDefinitions="*,Auto">
                 <TextBox Grid.Column="0" Text="{Binding SelectedProductName}" IsReadOnly="True" Margin="0,0,8,0"/>
-                <Button Grid.Column="1" Content="Keys exportieren…" Command="{Binding ExportKeysCommand}"/>
+                <Button Grid.Column="1" Content="Export keys…" Command="{Binding ExportKeysCommand}"/>
             </Grid>
             <Border Background="#1A000000" CornerRadius="4" Padding="10"
                     IsVisible="{Binding ProductStatus, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
@@ -28,15 +28,15 @@
 
             <Separator />
 
-            <TextBlock Text="Ablauf &amp; Nutzung" FontWeight="SemiBold"/>
+            <TextBlock Text="Expiration &amp; usage" FontWeight="SemiBold"/>
             <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
-                <CheckBox Content="Kein Ablaufdatum" IsChecked="{Binding NeverExpires}" />
+                <CheckBox Content="No expiration date" IsChecked="{Binding NeverExpires}" />
                 <CalendarDatePicker SelectedDate="{Binding ExpirationDate}"
                                     IsEnabled="{Binding ExpirationEnabled}"
-                                    PlaceholderText="Ablaufdatum" />
+                                    PlaceholderText="Expiration date" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
-                <TextBlock Text="Max. Nutzungen:" VerticalAlignment="Center"/>
+                <TextBlock Text="Max. usages:" VerticalAlignment="Center"/>
                 <NumericUpDown Value="{Binding MaxUsages}" Minimum="1" Width="120"/>
             </StackPanel>
 
@@ -46,7 +46,7 @@
             <StackPanel Orientation="Horizontal" Spacing="8">
                 <TextBox Text="{Binding NewFeature}" Width="260"
                          PlaceholderText="Feature-Name…" />
-                <Button Content="Hinzufügen" Command="{Binding AddFeatureCommand}" />
+                <Button Content="Add" Command="{Binding AddFeatureCommand}" />
             </StackPanel>
             <ListBox ItemsSource="{Binding Features}" MaxHeight="130">
                 <ListBox.ItemTemplate>
@@ -64,14 +64,14 @@
 
             <Separator />
 
-            <Button Content="🔏 Lizenz generieren" Command="{Binding GenerateLicenseCommand}" />
+            <Button Content="🔏 Generate license" Command="{Binding GenerateLicenseCommand}" />
 
-            <TextBlock Text="Generierte Lizenz (XML)" FontWeight="SemiBold"/>
+            <TextBlock Text="Generated license (XML)" FontWeight="SemiBold"/>
             <TextBox Text="{Binding GeneratedLicenseXml}"
                      AcceptsReturn="True" Height="150"
                      FontFamily="Courier New" FontSize="10"
                      IsReadOnly="True" />
-            <Button Content="Lizenz speichern…" Command="{Binding SaveLicenseCommand}" />
+            <Button Content="Save license…" Command="{Binding SaveLicenseCommand}" />
 
         </StackPanel>
     </ScrollViewer>

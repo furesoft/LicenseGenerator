@@ -63,7 +63,7 @@ public class LicensingService
         }
         catch (Exception ex)
         {
-            return (false, [new GeneralValidationFailure { Message = "Ungültiges Lizenz-Format", HowToResolve = ex.Message }]);
+            return (false, [new GeneralValidationFailure { Message = "Invalid license format", HowToResolve = ex.Message }]);
         }
 
         // ToList() is critical — AssertValidLicense() returns a lazy IEnumerable

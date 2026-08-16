@@ -38,7 +38,7 @@ public class ProductService(LicensingService licensingService) : IProductService
     {
         var normalized = NormalizeAndValidateProductName(productName);
         if (string.IsNullOrWhiteSpace(passphrase))
-            throw new ArgumentException("Passphrase darf nicht leer sein.", nameof(passphrase));
+            throw new ArgumentException("Passphrase must not be empty.", nameof(passphrase));
 
         var productPath = GetProductPath(normalized);
         var publicKeyPath = Path.Combine(productPath, "key.pub");
@@ -96,10 +96,10 @@ public class ProductService(LicensingService licensingService) : IProductService
     {
         var normalized = productName.Trim();
         if (string.IsNullOrWhiteSpace(normalized))
-            throw new ArgumentException("Produktname darf nicht leer sein.", nameof(productName));
+            throw new ArgumentException("Product name must not be empty.", nameof(productName));
 
         if (normalized.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
-            throw new ArgumentException("Produktname enthält ungültige Zeichen.", nameof(productName));
+            throw new ArgumentException("Product name contains invalid characters.", nameof(productName));
 
         return normalized;
     }
